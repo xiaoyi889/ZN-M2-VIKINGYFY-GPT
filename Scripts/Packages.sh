@@ -40,6 +40,22 @@ UPDATE_PACKAGE() {
 	fi
 }
 
+# 清理当前构建不使用、且存在失效依赖的全量 Feed 包定义
+# 仅删除本次编译工作区中的 feeds 链接目录，不修改上游 Feed 源码。
+BROKEN_FEED_PACKAGES=(
+	"../feeds/packages/bmx7-dnsupdate"
+	"../feeds/packages/prometheus-node-exporter-lua"
+	"../feeds/luci/luci-app-babeld"
+	"../feeds/luci/luci-app-bmx7"
+	"../feeds/luci/luci-app-librespeed"
+)
+for PKG_DIR in "${BROKEN_FEED_PACKAGES[@]}"; do
+	if [ -d "$PKG_DIR" ]; then
+		rm -rf "$PKG_DIR"
+		echo "Disabled broken unused feed package: $PKG_DIR"
+	fi
+done
+
 # 调用示例
 # UPDATE_PACKAGE "OpenAppFilter" "destan19/OpenAppFilter" "master" "" "custom_name1 custom_name2"
 # UPDATE_PACKAGE "open-app-filter" "destan19/OpenAppFilter" "master" "" "luci-app-appfilter oaf" 这样会把原有的open-app-filter，luci-app-appfilter，oaf相关组件删除，不会出现coremark错误。
@@ -70,7 +86,7 @@ UPDATE_PACKAGE "netspeedtest" "sirpdboy/luci-app-netspeedtest" "master" "" "home
 UPDATE_PACKAGE "openlist2" "sbwml/luci-app-openlist2" "main"
 UPDATE_PACKAGE "partexp" "sirpdboy/luci-app-partexp" "main"
 UPDATE_PACKAGE "qbittorrent" "sbwml/luci-app-qbittorrent" "master" "" "qt6base qt6tools rblibtorrent"
-UPDATE_PACKAGE "qmodem" "FUjr/QModem" "main"
+#UPDATE_PACKAGE "qmodem" "FUjr/QModem" "main"
 UPDATE_PACKAGE "quickfile" "sbwml/luci-app-quickfile" "main"
 UPDATE_PACKAGE "viking" "VIKINGYFY/packages" "main" "" "luci-app-timewol luci-app-wolplus"
 UPDATE_PACKAGE "vnt" "lmq8267/luci-app-vnt" "main"
