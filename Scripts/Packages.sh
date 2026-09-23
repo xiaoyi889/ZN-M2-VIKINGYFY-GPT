@@ -43,16 +43,16 @@ UPDATE_PACKAGE() {
 # 清理当前构建不使用、且存在失效依赖的全量 Feed 包定义
 # 仅删除本次编译工作区中的 feeds 链接目录，不修改上游 Feed 源码。
 BROKEN_FEED_PACKAGES=(
-	"../feeds/packages/bmx7-dnsupdate"
-	"../feeds/packages/prometheus-node-exporter-lua"
-	"../feeds/luci/luci-app-babeld"
-	"../feeds/luci/luci-app-bmx7"
-	"../feeds/luci/luci-app-librespeed"
+	"./feeds/packages/bmx7-dnsupdate"
+	"./feeds/packages/prometheus-node-exporter-lua"
+	"./feeds/luci/luci-app-babeld"
+	"./feeds/luci/luci-app-bmx7"
+	"./feeds/luci/luci-app-librespeed"
 )
 for PKG_DIR in "${BROKEN_FEED_PACKAGES[@]}"; do
-	if [ -d "$PKG_DIR" ]; then
+	if [ -e "$PKG_DIR" ] || [ -L "$PKG_DIR" ]; then
 		rm -rf "$PKG_DIR"
-		echo "Disabled broken unused feed package: $PKG_DIR"
+		echo "Disabled broken unused installed feed package: $PKG_DIR"
 	fi
 done
 
