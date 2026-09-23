@@ -1,0 +1,11 @@
+name: PR-Trigger-Test
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  test:
+    runs-on: ubuntu-24.04
+    steps:
+      - run: echo "PR trigger test OK"
