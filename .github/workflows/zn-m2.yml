@@ -3,6 +3,8 @@ name: zn-m2-wifi-no
 
 #CI计划
 on:
+  pull_request:
+    types: [opened, synchronize, reopened]
   #自动编译：当Auto-Clean运行完成后
   workflow_run:
     workflows: ["Auto-Clean"]
