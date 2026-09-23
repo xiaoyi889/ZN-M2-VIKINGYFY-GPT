@@ -4,3 +4,5 @@ Second synchronize trigger test.
 Third synchronize trigger test.
 
 Minimal workflow diagnostic trigger.
+
+Fourth synchronize trigger: verify installed-feed cleanup.
