@@ -94,6 +94,10 @@ echo "CONFIG_PACKAGE_kmod-usb-ohci=n" >> ./.config
 echo "CONFIG_PACKAGE_kmod-usb-uhci=n" >> ./.config
 echo "CONFIG_PACKAGE_kmod-usb-xhci=n" >> ./.config
 
+#其他可选UI组件
+echo "CONFIG_PACKAGE_luci-app-wolultra=y" >> ./.config
+echo "CONFIG_PACKAGE_luci-app-cpufreq=y" >> ./.config
+
 #高通平台调整
 DTS_PATH="./target/linux/qualcommax/files/arch/arm64/boot/dts/qcom/"
 if [[ "${WRT_TARGET^^}" == *"QUALCOMMAX"* ]]; then
