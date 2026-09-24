@@ -33,6 +33,11 @@ sed -i "s/192\.168\.[0-9]*\.[0-9]*/$WRT_IP/g" $CFG_FILE
 #修改默认主机名
 sed -i "s/hostname='.*'/hostname='$WRT_NAME'/g" $CFG_FILE
 
+#运行时APK软件源：使用南京大学 ImmortalWrt Snapshot 镜像
+sed -i 's#https://downloads\.immortalwrt\.org/snapshots#https://mirror\.nju\.edu\.cn/immortalwrt/snapshots#g' ./include/version.mk
+#video Feed 保留编译可见性，但不生成运行时 APK 软件源
+echo "CONFIG_FEED_video=n" >> ./.config
+
 #配置文件修改
 echo "CONFIG_PACKAGE_luci=y" >> ./.config
 echo "CONFIG_LUCI_LANG_zh_Hans=y" >> ./.config
