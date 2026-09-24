@@ -92,7 +92,13 @@ jobs:
           echo "WRT_MARK=${GITHUB_REPOSITORY%%/*}" >> $GITHUB_ENV
           echo "WRT_INFO=${WRT_SOURCE%%/*}" >> $GITHUB_ENV
           echo "WRT_TARGET=$(grep -m 1 -oP '^CONFIG_TARGET_\K[\w]+(?=\=y)' ./Config/$WRT_CONFIG.txt)" >> $GITHUB_ENV
-          echo "WRT_BUILD_BRANCH=$GITHUB_REF_NAME" >> $GITHUB_ENV
+          if [ -n "$GITHUB_BASE_REF" ]; then
+            echo "WRT_CACHE_SCOPE=$GITHUB_BASE_REF" >> $GITHUB_ENV
+            echo "WRT_BUILD_BRANCH=$GITHUB_HEAD_REF" >> $GITHUB_ENV
+          else
+            echo "WRT_CACHE_SCOPE=$GITHUB_REF_NAME" >> $GITHUB_ENV
+            echo "WRT_BUILD_BRANCH=$GITHUB_REF_NAME" >> $GITHUB_ENV
+          fi
           if [ "$GITHUB_REF_NAME" = "dev/zn-m2-usb" ]; then
             echo "WRT_TYPE=ZN-M2无WiFi + USB存储" >> $GITHUB_ENV
           else
@@ -122,8 +128,8 @@ jobs:
         if: env.WRT_TEST != 'true'
         uses: actions/cache@main
         with:
-          key: ${{env.WRT_CONFIG}}-${{env.WRT_INFO}}-${{github.ref_name}}-${{env.WRT_HASH}}
-          restore-keys: ${{env.WRT_CONFIG}}-${{env.WRT_INFO}}-${{github.ref_name}}-
+          key: ${{env.WRT_CONFIG}}-${{env.WRT_INFO}}-${{env.WRT_CACHE_SCOPE}}-${{env.WRT_HASH}}
+          restore-keys: ${{env.WRT_CONFIG}}-${{env.WRT_INFO}}-${{env.WRT_CACHE_SCOPE}}-
           path: |
             ./wrt/.ccache
             ./wrt/staging_dir/host*
@@ -145,7 +151,7 @@ jobs:
           fi
 
           if ${{steps.check-cache.outputs.cache-hit != 'true'}}; then
-            CACHE_LIST=$(gh cache list --key "$WRT_CONFIG-$WRT_INFO-$GITHUB_REF_NAME-" | cut -f 1)
+            CACHE_LIST=$(gh cache list --key "$WRT_CONFIG-$WRT_INFO-$WRT_CACHE_SCOPE-" | cut -f 1)
             for CACHE_KEY in $CACHE_LIST; do
               gh cache delete $CACHE_KEY
             done
