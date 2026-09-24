@@ -71,6 +71,7 @@ echo "CONFIG_PACKAGE_hd-idle=y" >> ./.config
 echo "CONFIG_PACKAGE_luci-app-hd-idle=y" >> ./.config
 echo "CONFIG_PACKAGE_usb-modeswitch=y" >> ./.config
 echo "CONFIG_PACKAGE_usbmuxd=n" >> ./.config
+	echo "CONFIG_PACKAGE_kmod-usb-serial-qualcomm=y" >> ./.config
 # USB网络/其他驱动保持精简
 echo "CONFIG_PACKAGE_kmod-usb-net=n" >> ./.config
 echo "CONFIG_PACKAGE_kmod-usb-net-cdc-eem=n" >> ./.config
