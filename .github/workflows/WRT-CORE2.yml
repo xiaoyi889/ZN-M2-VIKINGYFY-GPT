@@ -92,6 +92,12 @@ jobs:
           echo "WRT_MARK=${GITHUB_REPOSITORY%%/*}" >> $GITHUB_ENV
           echo "WRT_INFO=${WRT_SOURCE%%/*}" >> $GITHUB_ENV
           echo "WRT_TARGET=$(grep -m 1 -oP '^CONFIG_TARGET_\K[\w]+(?=\=y)' ./Config/$WRT_CONFIG.txt)" >> $GITHUB_ENV
+          echo "WRT_BUILD_BRANCH=$GITHUB_REF_NAME" >> $GITHUB_ENV
+          if [ "$GITHUB_REF_NAME" = "dev/zn-m2-usb" ]; then
+            echo "WRT_TYPE=ZN-M2无WiFi + USB存储" >> $GITHUB_ENV
+          else
+            echo "WRT_TYPE=ZN-M2无WiFi精简版" >> $GITHUB_ENV
+          fi
           echo "WRT_KVER=none" >> $GITHUB_ENV
           echo "WRT_LIST=none" >> $GITHUB_ENV
 
@@ -231,14 +237,15 @@ jobs:
           tag_name: 精简版${{env.WRT_CONFIG}}-${{env.WRT_INFO}}-${{env.WRT_BRANCH}}-${{env.WRT_DATE}}
           files: ./wrt/upload/*.*
           body: |
-            这是个ZN-M2无WiFi有usb的固件包！
+            固件类型：${{env.WRT_TYPE}}
             请注意选择，不要选错！
             不要问，刷就完事了！
 
             全系带开源硬件加速，别问了！
 
             源码：${{env.WRT_REPO}}
-            分支：${{env.WRT_BRANCH}}
+            构建分支：${{env.WRT_BUILD_BRANCH}}
+            源码分支：${{env.WRT_BRANCH}}
             提交：${{env.WRT_HASH}}
 
             配置：${{env.WRT_CONFIG}}
