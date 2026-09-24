@@ -94,7 +94,7 @@ jobs:
           echo "WRT_TARGET=$(grep -m 1 -oP '^CONFIG_TARGET_\K[\w]+(?=\=y)' ./Config/$WRT_CONFIG.txt)" >> $GITHUB_ENV
           if [ -n "$GITHUB_BASE_REF" ]; then
             echo "WRT_CACHE_SCOPE=$GITHUB_BASE_REF" >> $GITHUB_ENV
-            echo "WRT_BUILD_BRANCH=$GITHUB_HEAD_REF" >> $GITHUB_ENV
+            echo "WRT_BUILD_BRANCH=$GITHUB_BASE_REF" >> $GITHUB_ENV
           else
             echo "WRT_CACHE_SCOPE=$GITHUB_REF_NAME" >> $GITHUB_ENV
             echo "WRT_BUILD_BRANCH=$GITHUB_REF_NAME" >> $GITHUB_ENV
