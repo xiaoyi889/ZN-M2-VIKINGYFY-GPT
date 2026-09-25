@@ -69,6 +69,7 @@ echo "CONFIG_PACKAGE_automount=n" >> ./.config
 echo "CONFIG_PACKAGE_luci-app-diskman=y" >> ./.config
 echo "CONFIG_PACKAGE_hd-idle=y" >> ./.config
 echo "CONFIG_PACKAGE_luci-app-hd-idle=y" >> ./.config
+echo "CONFIG_PACKAGE_nfs-kernel-server=y" >> ./.config
 echo "CONFIG_PACKAGE_usb-modeswitch=n" >> ./.config
 echo "CONFIG_PACKAGE_usbmuxd=n" >> ./.config
 echo "CONFIG_PACKAGE_kmod-usb-serial-qualcomm=n" >> ./.config
@@ -97,6 +98,7 @@ echo "CONFIG_PACKAGE_kmod-usb-xhci=n" >> ./.config
 #其他可选UI组件
 echo "CONFIG_PACKAGE_luci-app-wolultra=y" >> ./.config
 echo "CONFIG_PACKAGE_luci-app-cpufreq=y" >> ./.config
+echo "CONFIG_PACKAGE_luci-app-statistics=y" >> ./.config
 
 #高通平台调整
 DTS_PATH="./target/linux/qualcommax/files/arch/arm64/boot/dts/qcom/"
