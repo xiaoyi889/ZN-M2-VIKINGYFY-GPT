@@ -97,20 +97,22 @@ if [ -f "$DM_FILE" ]; then
 fi
 
 
-#预置luci-app-statistics：仅监控WAN，关闭无线统计
+#预置luci-app-statistics：监控LAN和WAN，关闭无线统计
 STAT_INIT="../package/base-files/files/etc/uci-defaults/99-statistics-defaults"
 mkdir -p "$(dirname "$STAT_INIT")"
 cat > "$STAT_INIT" <<'EOF'
 #!/bin/sh
 
-# 根据最终网络配置自动取得 WAN 的实际三层设备，避免硬编码 ethX/VLAN/PPPoE
+# 根据最终网络配置自动取得 LAN/WAN 的实际三层设备，避免硬编码 ethX/VLAN/PPPoE
+LAN_DEV="$(ubus call network.interface.lan status 2>/dev/null | jsonfilter -e '@.l3_device' 2>/dev/null)"
+[ -n "$LAN_DEV" ] || LAN_DEV="$(uci -q get network.lan.device 2>/dev/null)"
+
 WAN_DEV="$(ubus call network.interface.wan status 2>/dev/null | jsonfilter -e '@.l3_device' 2>/dev/null)"
 [ -n "$WAN_DEV" ] || WAN_DEV="$(uci -q get network.wan.device 2>/dev/null)"
 
-if [ -n "$WAN_DEV" ]; then
-	uci -q delete luci_statistics.collectd_interface.Interfaces
-	uci -q add_list luci_statistics.collectd_interface.Interfaces="$WAN_DEV"
-fi
+uci -q delete luci_statistics.collectd_interface.Interfaces
+[ -n "$LAN_DEV" ] && uci -q add_list luci_statistics.collectd_interface.Interfaces="$LAN_DEV"
+[ -n "$WAN_DEV" ] && uci -q add_list luci_statistics.collectd_interface.Interfaces="$WAN_DEV"
 
 # ZN-M2 为 NoWiFi 固件，不收集无线统计
 uci -q set luci_statistics.collectd_iwinfo.enable='0'
@@ -121,7 +123,7 @@ exit 0
 EOF
 chmod +x "$STAT_INIT"
 
-echo "luci-app-statistics defaults set: WAN only, wireless disabled!"
+echo "luci-app-statistics defaults set: LAN + WAN, wireless disabled!"
 
 #修复luci-app-netspeedtest相关问题
 if [ -d *"luci-app-netspeedtest"* ]; then
