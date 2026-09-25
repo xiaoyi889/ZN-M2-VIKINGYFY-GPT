@@ -70,6 +70,7 @@ echo "CONFIG_PACKAGE_luci-app-diskman=y" >> ./.config
 echo "CONFIG_PACKAGE_hd-idle=y" >> ./.config
 echo "CONFIG_PACKAGE_luci-app-hd-idle=y" >> ./.config
 echo "CONFIG_PACKAGE_nfs-kernel-server=y" >> ./.config
+echo "CONFIG_PACKAGE_luci-app-nfs=y" >> ./.config
 echo "CONFIG_PACKAGE_luci-app-filemanager=y" >> ./.config
 echo "CONFIG_PACKAGE_usb-modeswitch=n" >> ./.config
 echo "CONFIG_PACKAGE_usbmuxd=n" >> ./.config
