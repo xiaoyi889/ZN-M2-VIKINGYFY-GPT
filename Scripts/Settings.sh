@@ -97,7 +97,6 @@ echo "CONFIG_PACKAGE_kmod-usb-xhci=n" >> ./.config
 
 #其他可选UI组件
 echo "CONFIG_PACKAGE_luci-app-wolultra=y" >> ./.config
-echo "CONFIG_PACKAGE_luci-app-cpufreq=y" >> ./.config
 echo "CONFIG_PACKAGE_luci-app-statistics=y" >> ./.config
 
 #高通平台调整
